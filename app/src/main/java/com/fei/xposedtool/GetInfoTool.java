@@ -18,9 +18,9 @@ public class GetInfoTool implements IXposedHookLoadPackage {
 
     private static final String mPackageName = "";
     private static final String mClassName = "";
-    private static final String mMethodName = "init";
+    private static final String mMethodName = "";
 
-    private static final String LOG_TAG = "XXX:";
+    private static final String LOG_TAG = "fei";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -37,7 +37,7 @@ public class GetInfoTool implements IXposedHookLoadPackage {
 
                 // this will be called before the clock was updated by the original method
 
-                printLog("hook start");
+                printLog("tool start");
             }
 
             @Override
@@ -52,24 +52,32 @@ public class GetInfoTool implements IXposedHookLoadPackage {
                 printLog("getDeclaredFields start");
                 Field[] declaredFields = aClass.getDeclaredFields();
                 for (Field declaredField : declaredFields) {
-                    String name = declaredField.getName();
-                    Field field = aClass.getDeclaredField(name);
-                    Object obj = field.get(param.thisObject);
-                    printLog(name + "=" + obj);
+                    try {
+                        String name = declaredField.getName();
+                        Field field = aClass.getDeclaredField(name);
+                        Object obj = field.get(param.thisObject);
+                        printLog(name + "=" + obj);
+                    } catch (Exception e) {
+                        printLog(e.toString());
+                    }
                 }
                 printLog("getDeclaredFields end");
 
                 printLog("getFields start");
                 Field[] fields = aClass.getFields();
                 for (Field field : fields) {
-                    String name = field.getName();
-                    Field field1 = aClass.getField(name);
-                    Object obj = field1.get(param.thisObject);
-                    printLog(name + "=" + obj);
+                    try {
+                        String name = field.getName();
+                        Field field1 = aClass.getField(name);
+                        Object obj = field1.get(param.thisObject);
+                        printLog(name + "=" + obj);
+                    } catch (Exception e) {
+                        printLog(e.toString());
+                    }
                 }
                 printLog("getFields end");
 
-                printLog("hook end");
+                printLog("tool end");
             }
         });
     }
